@@ -20,8 +20,8 @@
    <widget class="QFrame" name="properties_frame">
     <property name="geometry">
      <rect>
-      <x>1070</x>
-      <y>10</y>
+      <x>1071</x>
+      <y>70</y>
       <width>351</width>
       <height>691</height>
      </rect>
@@ -32,7 +32,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="resetButton">
+    <widget class="QPushButton" name="reset_button">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -41,14 +41,50 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
      </property>
      <property name="text">
       <string>RESET</string>
      </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/reset.png</normaloff>../../Downloads/reset.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="autoRepeat">
+      <bool>false</bool>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QPushButton" name="okButton">
+    <widget class="QPushButton" name="ok_button">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -57,11 +93,32 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="text">
       <string>OK</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/check.png</normaloff>../../Downloads/check.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QFrame" name="edge_detection_frame">
@@ -139,7 +196,7 @@
         <x>120</x>
         <y>40</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -164,7 +221,7 @@
         <x>120</x>
         <y>70</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -239,9 +296,9 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>60</y>
+        <y>51</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -372,7 +429,7 @@
         <x>120</x>
         <y>140</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -400,7 +457,7 @@
         <x>120</x>
         <y>50</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -425,7 +482,7 @@
         <x>120</x>
         <y>80</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -450,7 +507,7 @@
         <x>120</x>
         <y>110</y>
         <width>201</width>
-        <height>22</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="minimum">
@@ -495,10 +552,10 @@
    <widget class="QFrame" name="main_frame">
     <property name="geometry">
      <rect>
-      <x>19</x>
-      <y>10</y>
+      <x>20</x>
+      <y>70</y>
       <width>1041</width>
-      <height>701</height>
+      <height>691</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -640,171 +697,166 @@
      </property>
     </widget>
    </widget>
+   <widget class="QFrame" name="tool_frame">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>1401</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="open_button">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Open</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/open-folder.png</normaloff>../../Downloads/open-folder.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="save_button">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>0</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/floppy-disk.png</normaloff>../../Downloads/floppy-disk.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="export_button">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>0</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Export</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/printer.png</normaloff>../../Downloads/printer.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="exit_button">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>0</y>
+       <width>121</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Exit</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../Downloads/logout.png</normaloff>../../Downloads/logout.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>25</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
    <zorder>main_frame</zorder>
    <zorder>properties_frame</zorder>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1440</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="separator"/>
-    <addaction name="actionPrint"/>
-    <addaction name="separator"/>
-    <addaction name="actionQuit"/>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionSmall"/>
-    <addaction name="actionBig"/>
-   </widget>
-   <widget class="QMenu" name="menuCh_ng_6">
-    <property name="title">
-     <string>Chapter 2</string>
-    </property>
-    <addaction name="actionRotation"/>
-    <addaction name="actionAffine"/>
-    <addaction name="actionTranslation"/>
-   </widget>
-   <widget class="QMenu" name="menuCh_ng_9">
-    <property name="title">
-     <string>Chapter 3</string>
-    </property>
-    <addaction name="actioAnhXam"/>
-    <addaction name="actionNegative"/>
-    <addaction name="actionLog"/>
-    <addaction name="actionHistogram"/>
-    <addaction name="actionGamma"/>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>About US</string>
-    </property>
-    <addaction name="actionQt"/>
-    <addaction name="actionAuthor"/>
-   </widget>
-   <widget class="QMenu" name="menuType_Noise">
-    <property name="title">
-     <string>Image Restoration
-</string>
-    </property>
-    <widget class="QMenu" name="menuType_Here">
-     <property name="title">
-      <string>Image Restoration 1
-</string>
-     </property>
-     <addaction name="actionMedian_Filtering"/>
-     <addaction name="actionAdaptive_Median_Filtering"/>
-     <addaction name="actionAdaptive_Wiener_Filtering"/>
-    </widget>
-    <widget class="QMenu" name="menuImage_Restoration_2">
-     <property name="title">
-      <string>Image Restoration 2</string>
-     </property>
-     <addaction name="actionInverse_Filter"/>
-    </widget>
-    <widget class="QMenu" name="menuImage_Restoration">
-     <property name="title">
-      <string>Image Restoration </string>
-     </property>
-     <widget class="QMenu" name="menuType_Noise_3">
-      <property name="title">
-       <string>Type Noise</string>
-      </property>
-      <addaction name="actionGaussian"/>
-      <addaction name="actionRayleigh"/>
-      <addaction name="actionErlang"/>
-      <addaction name="actionUniform"/>
-      <addaction name="actionImpluse"/>
-     </widget>
-     <addaction name="menuType_Noise_3"/>
-     <addaction name="separator"/>
-     <addaction name="actionHistogram_PDF"/>
-    </widget>
-    <addaction name="separator"/>
-    <addaction name="menuImage_Restoration"/>
-    <addaction name="menuType_Here"/>
-    <addaction name="menuImage_Restoration_2"/>
-   </widget>
-   <widget class="QMenu" name="menuSimple_Edge_Detection_2">
-    <property name="title">
-     <string>Simple Edge Detection</string>
-    </property>
-    <addaction name="actionSHT"/>
-   </widget>
-   <widget class="QMenu" name="menuSmoothing">
-    <property name="title">
-     <string>Smoothing</string>
-    </property>
-    <addaction name="actionBlur"/>
-    <addaction name="actionBox_Filter"/>
-    <addaction name="actionMedian_Filter"/>
-    <addaction name="actionBilateral_Filter"/>
-    <addaction name="actionGaussian_Filter"/>
-   </widget>
-   <widget class="QMenu" name="menuFilter">
-    <property name="title">
-     <string>Filter</string>
-    </property>
-    <addaction name="actionMedian_threshold_2"/>
-    <addaction name="actionDirectional_Filtering_2"/>
-    <addaction name="actionDirectional_Filtering_3"/>
-    <addaction name="actionDirectional_Filtering_4"/>
-    <addaction name="action_Butterworth"/>
-    <addaction name="action_Notch_filter"/>
-   </widget>
-   <widget class="QMenu" name="menuCartooning_of_an_Image">
-    <property name="title">
-     <string>Cartooning of an Image</string>
-    </property>
-    <addaction name="actionCartoon"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuCh_ng_6"/>
-   <addaction name="menuCh_ng_9"/>
-   <addaction name="menuSimple_Edge_Detection_2"/>
-   <addaction name="menuCartooning_of_an_Image"/>
-   <addaction name="menuSmoothing"/>
-   <addaction name="menuFilter"/>
-   <addaction name="menuType_Noise"/>
-   <addaction name="menuView"/>
-   <addaction name="menuAbout"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="separator"/>
-   <addaction name="actionOpen"/>
-   <addaction name="actionSave"/>
-   <addaction name="separator"/>
-   <addaction name="actionPrint"/>
-   <addaction name="separator"/>
-   <addaction name="actionQuit"/>
+   <zorder>tool_frame</zorder>
   </widget>
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/open.png</normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/open.png</iconset>
+     <normaloff>../../Downloads/open-folder.png</normaloff>../../Downloads/open-folder.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -813,7 +865,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/save.png</normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/save.png</iconset>
+     <normaloff>../../Downloads/floppy-disk.png</normaloff>../../Downloads/floppy-disk.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -822,7 +874,7 @@
   <action name="actionPrint">
    <property name="icon">
     <iconset>
-     <normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/print.png</normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/print.png</iconset>
+     <normaloff>../../Downloads/printer.png</normaloff>../../Downloads/printer.png</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -831,7 +883,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset>
-     <normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/Quit.png</normaloff>../Image-Processing-with-OpenCV-Python-and-PyQt5/Quit.png</iconset>
+     <normaloff>../../Downloads/logout.png</normaloff>../../Downloads/logout.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
