@@ -12,7 +12,7 @@ with open("labels.pickle", 'rb') as f:
 # cap = cv2.VideoCapture(0)
 # prefix = '/Users/lap01685/PycharmProjects/pythonProject/venv/lib/python3.8/site-packages/'
 # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + '')
-face_cascade = cv2.CascadeClassifier("/Users/lap01685/ProjectForImgProcessing/Face-Recognition-Image-Processing/cascades/data/haarcascade_frontalface_alt2.xml")
+face_cascade = cv2.CascadeClassifier("cascades/data/haarcascade_frontalface_alt2.xml")
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("trainner.yml")
@@ -45,7 +45,7 @@ def detect_and_recog(prefix, photo_path):
         roi_color = frame[y:y + h, x:x + w]
         # print('roi_gay', roi_gray, '\n')
 
-        img_item = prefix + "images/my-image3.png"
+        img_item = prefix + "images/result/my-image3.png"
 
         color = (255, 0, 0)
         stroke = 2
@@ -65,7 +65,7 @@ def detect_and_recog(prefix, photo_path):
 
 
 def main():
-    detect_and_recog('', "/Users/lap01685/ProjectForImgProcessing/Face-Recognition-Image-Processing/src/images/mypic01.jpg")
+    detect_and_recog('', "/Users/lap01685/ProjectForImgProcessing/Face-Recognition-Image-Processing/src/images/test_photo/mypic01.jpg")
 
 
 if __name__ == "__main__":
