@@ -17,7 +17,7 @@ class MainWindow(QWidget):
         self.main_win = QMainWindow()
         self.uic = Ui_MainWindow()
         self.uic.setupUi(self.main_win)
-        self.uic.open_button.clicked.connect(self.open_img)
+        self.uic.open_button.clicked.connect(self.open_image)
         # self.uic.pauseButton.clicked.connect(self.Pause)
         # self.uic.chooseFileButton.clicked.connect(self.ChooseFile)
 
@@ -47,15 +47,15 @@ class MainWindow(QWidget):
             # self.imgLabel2.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
 
     @pyqtSlot()
-    def loadImage(self, fname):
+    def load_image(self, fname):
         self.image = cv2.imread(fname)
         # self.tmp = self.image
         self.displayImage()
 
-    def open_img(self):
-        fname, filter = QFileDialog.getOpenFileName(self, 'Open File', r'C:\Users\NHON TRAN\Desktop', "Image Files (*)")
-        if fname:
-            self.loadImage(fname)
+    def open_image(self):
+        image_file_name, filter = QFileDialog.getOpenFileName(self, 'Open File', r'~', "Image Files (*)")
+        if image_file_name:
+            self.load_image(image_file_name)
         else:
             print("Invalid Image")
 
