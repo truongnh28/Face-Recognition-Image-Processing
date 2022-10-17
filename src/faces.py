@@ -14,7 +14,7 @@ with open(r'./src/labels.pickle', 'rb') as f:
 # cap = cv2.VideoCapture(0)
 # prefix = '/Users/lap01685/PycharmProjects/pythonProject/venv/lib/python3.8/site-packages/'
 # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + '')
-face_cascade = cv2.CascadeClassifier("cascades/data/haarcascade_frontalface_alt2.xml")
+face_cascade = cv2.CascadeClassifier("./src/cascades/data/haarcascade_frontalface_alt2.xml")
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("./src/trainner.yml")

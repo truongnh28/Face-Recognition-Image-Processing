@@ -135,7 +135,9 @@ class MainWindow(QWidget):
     def face_recognition(self):
         global is_has_face_recog
         is_has_face_recog = not is_has_face_recog
+        print("a")
         temp = fr.detect_and_recog(self.image)
+        print("b")
         if is_has_face_recog:
             self.displayImage(temp,window=2)
         else:
