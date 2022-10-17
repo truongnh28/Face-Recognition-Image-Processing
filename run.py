@@ -1,3 +1,4 @@
+import pathlib
 import sys
 
 import cv2
@@ -10,6 +11,7 @@ from PyQt5 import QtCore
 from ui import Ui_MainWindow
 is_has_filtering = False
 is_has_edge_detection = False
+is_has_face_detection = False
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,7 +21,6 @@ class MainWindow(QWidget):
         self.sigmaX = 0
         self.threshold1 = 100
         self.threshold2 = 200
-
         self.main_win = QMainWindow()
         self.uic = Ui_MainWindow()
         self.uic.setupUi(self.main_win)
@@ -28,6 +29,8 @@ class MainWindow(QWidget):
         self.uic.edge_checkbox.stateChanged.connect(self.canny_edge_detection)
         self.uic.edge_detact_min_param.valueChanged.connect(self.canny_edge_param)
         self.uic.edge_detact_max_param.valueChanged.connect(self.canny_edge_param)
+        self.uic.face_detect_checkbox.stateChanged.connect(self.face_detection)
+        # self.uic.scale_factor_param.valueChanged.connect(self.face_detec_param)
         # self.uic.pauseButton.clicked.connect(self.Pause)
         # self.uic.chooseFileButton.clicked.connect(self.ChooseFile)
 
@@ -49,6 +52,7 @@ class MainWindow(QWidget):
         # image.shape[2] lưu số channel biểu thị mỗi pixel
         img = img.rgbSwapped()  # chuyển đổi hiệu quả một ảnh RGB thành một ảnh BGR.
         # img = cv2.resize(img,(511,491))
+        print("cc")
         if window == 1:
             self.uic.image_before.setPixmap(QPixmap.fromImage(img))
             self.uic.image_before.setAlignment(
@@ -97,6 +101,20 @@ class MainWindow(QWidget):
             self.displayImage(image, window=2)
         else:
             self.displayImage(self.image, window=2)
+    def face_detection(self):
+        global is_has_face_detection
+        is_has_face_detection = not is_has_face_detection
+        cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
+        print(cascade_path)
+        img_copy = self.image.copy()
+        gray = cv2.cvtColor(img_copy, cv2.COLOR_BGR2GRAY)
+        faces = cascade_path.detectMultiScale(gray, scaleFactor=self.uic.scale_factor_param.value(), minNeighbors=5, minSize=(30, 30))
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        if is_has_face_detection:
+            self.displayImage(img_copy,window=2)
+        else:
+            self.displayImage(self.image,window=2)
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_win = MainWindow()
