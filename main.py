@@ -85,7 +85,7 @@ def bilateral_filter(image, diameter, sigma_i, sigma_s):
 
 
 if __name__ == '__main__':
-    img = cv2.imread("data/img.png")
+    img = cv2.imread("src/data/img.png")
     img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     img_g = img_gray.copy()
     # k = 1

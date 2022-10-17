@@ -4,7 +4,9 @@ import pickle
 
 labels = {}
 
-with open("labels.pickle", 'rb') as f:
+# pickle_in = open("X.pickle","rb")
+# X = pickle.load(pickle_in)
+with open(r'./src/labels.pickle', 'rb') as f:
     ogLabels = pickle.load(f)
     labels = {v: k for k,v in ogLabels.items()}
 
@@ -15,12 +17,12 @@ with open("labels.pickle", 'rb') as f:
 face_cascade = cv2.CascadeClassifier("cascades/data/haarcascade_frontalface_alt2.xml")
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-recognizer.read("trainner.yml")
+recognizer.read("./src/trainner.yml")
 
 
 def recognize(frame, x, y, roi_gray):
     id_, conf = recognizer.predict(roi_gray)
-    print('conf: ', conf)
+    # print('conf: ', conf)
     if 10 <= conf <= 85:
         print(id_)
         print(labels[id_])
@@ -31,10 +33,9 @@ def recognize(frame, x, y, roi_gray):
         cv2.putText(frame, name, (x, y), font, 1, color, stroke, cv2.LINE_AA)
 
 
-def detect_and_recog(prefix, photo_path):
-        #ret, frame = cap.read()
-    frame = cv2.imread(photo_path)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+def detect_and_recog(image):
+    # frame = cv2.imread(photo_path)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=4, minSize=(20, 20))
     for (x, y, w, h) in faces:
@@ -42,31 +43,24 @@ def detect_and_recog(prefix, photo_path):
         # print(x, y, w, h, '\n')
         # print("here", gray, '\n')
         roi_gray = gray[y:y + h, x:x + w]
-        roi_color = frame[y:y + h, x:x + w]
+        # roi_color = image[y:y + h, x:x + w]
         # print('roi_gay', roi_gray, '\n')
 
-        img_item = prefix + "images/result/my-image3.png"
+        # img_item = prefix + "images/result/my-image3.png"
 
         color = (255, 0, 0)
         stroke = 2
         x_end_cord = x + w
         y_end_cord = y + h
-        cv2.rectangle(frame, (x, y), (x_end_cord, y_end_cord), color, stroke)
-        print("here")
+        cv2.rectangle(image, (x, y), (x_end_cord, y_end_cord), color, stroke)
+        # print("here")
         # recognizer
-        recognize(frame, x, y, roi_gray)
-        cv2.imwrite(img_item, frame)
-
-    cv2.imshow('frame', frame)
-
-
-    # cap.release()
-    cv2.destroyAllWindows()
+        recognize(image, x, y, roi_gray)
+    return image
 
 
 def main():
-    detect_and_recog('', "/Users/lap01685/ProjectForImgProcessing/Face-Recognition-Image-Processing/src/images/test_photo/mypic01.jpg")
-
+    detect_and_recog('', "./images/test_photo/mypic01.jpg")
 
 if __name__ == "__main__":
     main()
