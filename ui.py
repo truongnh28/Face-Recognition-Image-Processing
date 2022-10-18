@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.scale_factor_param.setGeometry(QtCore.QRect(120, 51, 201, 31))
         self.scale_factor_param.setMinimum(101)
         self.scale_factor_param.setMaximum(150)
-        self.scale_factor_param.setProperty("value", 101)
+        self.scale_factor_param.setProperty("value", 105)
         self.scale_factor_param.setSliderPosition(1)
         self.scale_factor_param.setOrientation(QtCore.Qt.Horizontal)
         self.scale_factor_param.setObjectName("scale_factor_param")
