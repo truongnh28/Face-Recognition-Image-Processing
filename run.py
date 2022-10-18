@@ -204,7 +204,6 @@ class MainWindow(QWidget):
         image = self.image.copy()
         temp = fr.detect_and_recog(image)
         if is_has_face_recog:
-            cv2.imshow("ss",self.image)
             self.displayImage(temp,window=2)
         else:
             self.displayImage(self.image,window=2)
