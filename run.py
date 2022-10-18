@@ -19,7 +19,8 @@ class MainWindow(QWidget):
         super().__init__()
         self.image = None
         self.tmp = None
-        self.kernel_size = (3,3)
+        self.tmp2 = None
+        self.kernel_size = (5,5)
         self.sigmaX = 0
         self.threshold1 = 100
         self.threshold2 = 200
@@ -34,9 +35,50 @@ class MainWindow(QWidget):
         self.uic.face_detect_checkbox.stateChanged.connect(self.face_detection)
         self.uic.scale_factor_param.valueChanged.connect(self.face_detection_param)
         self.uic.face_recog_checkbox.stateChanged.connect(self.face_recognition)
-        # self.uic.pauseButton.clicked.connect(self.Pause)
-        # self.uic.chooseFileButton.clicked.connect(self.ChooseFile)
+        self.uic.gaussian_param.valueChanged.connect(self.gaussian_blur2)
+        self.uic.normalized_param.valueChanged.connect(self.normalizaed_blur)
+        self.uic.median_param.valueChanged.connect(self.median_blur)
+        self.uic.bilateral_param.valueChanged.connect(self.bilateral_blur)
+        self.uic.reset_button.clicked.connect(self.reset)
 
+    def reset(self):
+        self.uic.face_recog_checkbox.setChecked(False)
+        self.uic.face_detect_checkbox.setChecked(False)
+        self.uic.edge_checkbox.setChecked(False)
+        self.uic.filter_checkbox.setChecked(False)
+    def bilateral_blur(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
+        if is_has_face_recog or is_has_edge_detection or is_has_face_detection:
+            pass
+        elif is_has_filtering:
+            image = cv2.bilateralFilter(self.image,self.uic.bilateral_param.value(),75,75)
+            self.displayImage(image,window=2)
+    def median_blur(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
+        if is_has_face_recog or is_has_edge_detection or is_has_face_detection:
+            pass
+        elif is_has_filtering:
+            k_size = 3 + (self.uic.median_param.value())*2
+            print(k_size)
+            image = blur = cv2.medianBlur(self.image,k_size)
+            self.displayImage(image,window=2)
+    def normalizaed_blur(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
+        if is_has_face_recog or is_has_edge_detection or is_has_face_detection:
+            pass
+        elif is_has_filtering:
+            k_size = 3 + (self.uic.normalized_param.value())*2
+            image = cv2.blur(self.image,(k_size,k_size))
+            self.displayImage(image, window=2)
     def show(self):
         self.main_win.show()
 
@@ -81,9 +123,24 @@ class MainWindow(QWidget):
         is_has_filtering = not is_has_filtering
         image = cv2.GaussianBlur(self.image, self.kernel_size, self.sigmaX)
         if is_has_filtering:
+            self.tmp = image
+            self.tmp2 = image
             self.displayImage(image, window=2)
         else:
             self.displayImage(self.image, window=2)
+    def gaussian_blur2(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_recog
+        global is_has_face_recog
+        gau = int(self.uic.gaussian_param.value())
+        image = cv2.GaussianBlur(self.image, self.kernel_size, gau)
+        if is_has_face_recog or is_has_face_detection:
+            pass
+        elif is_has_edge_detection:
+            self.canny_edge_param()
+        elif is_has_filtering:
+            self.displayImage(image,window=2)
     def canny_edge_detection(self):
         global is_has_edge_detection
         is_has_edge_detection = not is_has_edge_detection
@@ -91,18 +148,23 @@ class MainWindow(QWidget):
         can1 = cv2.GaussianBlur(can, self.kernel_size, self.sigmaX)
         image = cv2.Canny(can1, threshold1=self.uic.edge_detact_min_param.value(), threshold2=self.uic.edge_detact_max_param.value())
         if is_has_edge_detection:
+            self.tmp = self.tmp2
+            self.tmp2 = image
             self.displayImage(image, window=2)
         else:
-            self.displayImage(self.image,window=2)
+            self.displayImage(self.tmp,window=2)
     def canny_edge_param(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
         can = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         can1 = cv2.GaussianBlur(can, self.kernel_size, self.sigmaX)
-        image = cv2.Canny(can1, threshold1=self.uic.edge_detact_min_param.value(),
-                          threshold2=self.uic.edge_detact_max_param.value())
-        if is_has_edge_detection:
+        image = cv2.Canny(can1, threshold1=self.uic.edge_detact_min_param.value(), threshold2=self.uic.edge_detact_max_param.value())
+        if is_has_face_recog or is_has_face_detection:
+            pass
+        elif is_has_edge_detection:
             self.displayImage(image, window=2)
-        else:
-            self.displayImage(self.image, window=2)
     def face_detection(self):
         global is_has_face_detection
         is_has_face_detection = not is_has_face_detection
@@ -120,6 +182,12 @@ class MainWindow(QWidget):
             self.displayImage(self.image,window=2)
 
     def face_detection_param(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
+        if is_has_face_recog or is_has_edge_detection or is_has_filtering:
+            return
         cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
         cascade = cv2.CascadeClassifier(str(cascade_path))
         img_copy = self.image.copy()
@@ -130,15 +198,14 @@ class MainWindow(QWidget):
             cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 255, 0), 2)
         if is_has_face_detection:
             self.displayImage(img_copy, window=2)
-        else:
-            self.displayImage(self.image, window=2)
     def face_recognition(self):
         global is_has_face_recog
         is_has_face_recog = not is_has_face_recog
-        print("a")
-        temp = fr.detect_and_recog(self.image)
-        print("b")
+        image = self.image
+        temp = fr.detect_and_recog(image)
         if is_has_face_recog:
+            self.tmp = self.tmp2
+            self.tmp2 = temp
             self.displayImage(temp,window=2)
         else:
             self.displayImage(self.image,window=2)
