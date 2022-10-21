@@ -226,7 +226,7 @@ class MainWindow(QWidget):
 
         scale = self.uic.scale_factor_param.value() / 100
         can1 = cv2.GaussianBlur(image, self.kernel_size, self.uic.gaussian_param.value())
-        temp = fr.detect_and_recog(image, scale)
+        temp = fr.detect_and_recog(can1, scale)
         if is_has_face_recog:
             self.displayImage(temp, window=2)
         else:
