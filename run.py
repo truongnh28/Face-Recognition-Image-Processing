@@ -195,6 +195,7 @@ class MainWindow(QWidget):
             self.displayImage(self.image, window=2)
 
     def face_detection_param(self):
+        print(self.uic.scale_factor_param.value())
         global is_has_filtering
         global is_has_edge_detection
         global is_has_face_detection
