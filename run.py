@@ -186,7 +186,7 @@ class MainWindow(QWidget):
         global is_has_edge_detection
         global is_has_face_detection
         global is_has_face_recog
-        if is_has_face_recog or is_has_edge_detection or is_has_filtering:
+        if is_has_edge_detection or is_has_filtering:
             return
         cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
         cascade = cv2.CascadeClassifier(str(cascade_path))
@@ -196,13 +196,20 @@ class MainWindow(QWidget):
         faces = cascade.detectMultiScale(gray, scaleFactor=scale, minNeighbors=5, minSize=(30, 30))
         for (x, y, w, h) in faces:
             cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        if is_has_face_detection:
+
+        if is_has_face_recog:
+            image2 = self.image.copy()
+            temp = fr.detect_and_recog(image2, scale)
+            self.displayImage(temp, window=2)
+
+        elif is_has_face_detection:
             self.displayImage(img_copy, window=2)
     def face_recognition(self):
         global is_has_face_recog
         is_has_face_recog = not is_has_face_recog
         image = self.image.copy()
-        temp = fr.detect_and_recog(image)
+        scale = self.uic.scale_factor_param.value() / 100
+        temp = fr.detect_and_recog(image,scale)
         if is_has_face_recog:
             self.displayImage(temp,window=2)
         else:

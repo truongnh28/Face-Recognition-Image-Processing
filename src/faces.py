@@ -33,11 +33,11 @@ def recognize(frame, x, y, roi_gray):
         cv2.putText(frame, name, (x, y), font, 1, color, stroke, cv2.LINE_AA)
 
 
-def detect_and_recog(image):
+def detect_and_recog(image,scale=1.05):
     # frame = cv2.imread(photo_path)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=4, minSize=(20, 20))
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=scale, minNeighbors=5, minSize=(30, 30))
     for (x, y, w, h) in faces:
         # cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         # print(x, y, w, h, '\n')
