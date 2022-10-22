@@ -23,7 +23,7 @@ class MainWindow(QWidget):
         self.image = None
         self.tmp = None
         self.tmp2 = None
-        self.kernel_size = (3, 3)
+        self.kernel_size = (5, 5)
         self.sigmaX = 0
         self.threshold1 = 100
         self.threshold2 = 200
@@ -31,7 +31,7 @@ class MainWindow(QWidget):
         self.uic = Ui_MainWindow()
         self.uic.setupUi(self.main_win)
         self.uic.open_button.clicked.connect(self.open_image)
-        self.uic.filter_checkbox.stateChanged.connect(self.gaussian_blur)
+        self.uic.filter_checkbox.stateChanged.connect(self.median_blur1)
         self.uic.edge_checkbox.stateChanged.connect(self.canny_edge_detection)
         self.uic.edge_detact_min_param.valueChanged.connect(self.canny_edge_param)
         self.uic.edge_detact_max_param.valueChanged.connect(self.canny_edge_param)
@@ -61,7 +61,23 @@ class MainWindow(QWidget):
             image = cv2.bilateralFilter(self.image, self.uic.bilateral_param.value(), 75, 75)
             self.displayImage(image, window=2)
 
+    def median_blur1(self):
+        global is_has_filtering
+        global is_has_edge_detection
+        global is_has_face_detection
+        global is_has_face_recog
+        is_has_filtering = not is_has_filtering
+        if is_has_face_recog or is_has_edge_detection or is_has_face_detection:
+            pass
+        elif is_has_filtering:
+            k_size = 3 + (self.uic.median_param.value()) * 2
+            print(k_size)
+            image = cv2.medianBlur(self.image, k_size)
+            self.tmp = image
+            self.displayImage(image, window=2)
+
     def median_blur(self):
+
         global is_has_filtering
         global is_has_edge_detection
         global is_has_face_detection
@@ -71,7 +87,8 @@ class MainWindow(QWidget):
         elif is_has_filtering:
             k_size = 3 + (self.uic.median_param.value()) * 2
             print(k_size)
-            image = blur = cv2.medianBlur(self.image, k_size)
+            image = cv2.medianBlur(self.image, k_size)
+            self.tmp = image
             self.displayImage(image, window=2)
 
     def normalizaed_blur(self):
@@ -84,6 +101,7 @@ class MainWindow(QWidget):
         elif is_has_filtering:
             k_size = 3 + (self.uic.normalized_param.value()) * 2
             image = cv2.blur(self.image, (k_size, k_size))
+            self.tmp = image
             self.displayImage(image, window=2)
 
     def show(self):
@@ -115,7 +133,7 @@ class MainWindow(QWidget):
     @pyqtSlot()
     def load_image(self, fname):
         self.image = cv2.imread(fname)
-        # self.tmp = self.image
+        self.tmp = self.image
         self.displayImage(self.image)
 
     def open_image(self):
@@ -145,6 +163,7 @@ class MainWindow(QWidget):
         if is_has_face_recog or is_has_face_detection or is_has_edge_detection:
             pass
         elif is_has_filtering:
+            self.tmp = image
             self.displayImage(image, window=2)
 
     def canny_edge_detection(self):
@@ -152,13 +171,14 @@ class MainWindow(QWidget):
         global is_has_edge_detection
         global is_has_face_recog
         is_has_edge_detection = not is_has_edge_detection
-        can1 = cv2.GaussianBlur(self.image, self.kernel_size, self.uic.gaussian_param.value())
-        can = cv2.cvtColor(can1, cv2.COLOR_BGR2GRAY)
+        # can1 = cv2.GaussianBlur(self.image, self.kernel_size, self.uic.gaussian_param.value())
+        # k_size = 3 + (self.uic.median_param.value()) * 2
+        # print("cc")
+        # can1 = cv2.medianBlur(self.image, k_size)
+        can = cv2.cvtColor(self.tmp, cv2.COLOR_BGR2GRAY)
         image = cv2.Canny(can, threshold1=self.uic.edge_detact_min_param.value(),
                           threshold2=self.uic.edge_detact_max_param.value())
         if is_has_edge_detection:
-            self.tmp = self.tmp2
-            self.tmp2 = image
             self.displayImage(image, window=2)
         else:
             self.displayImage(self.tmp, window=2)
@@ -168,8 +188,12 @@ class MainWindow(QWidget):
         global is_has_edge_detection
         global is_has_face_detection
         global is_has_face_recog
-        can1 = cv2.GaussianBlur(self.image, self.kernel_size, self.uic.gaussian_param.value())
-        can = cv2.cvtColor(can1, cv2.COLOR_BGR2GRAY)
+        # can1 = cv2.GaussianBlur(self.image, self.kernel_size, self.uic.gaussian_param.value())
+        # k_size = 3 + (self.uic.median_param.value()) * 2
+        # print("cc")
+        # can1 = cv2.medianBlur(self.image, k_size)
+        can = cv2.cvtColor(self.tmp, cv2.COLOR_BGR2GRAY)
+
         image = cv2.Canny(can, threshold1=self.uic.edge_detact_min_param.value(),
                           threshold2=self.uic.edge_detact_max_param.value())
         if is_has_face_recog or is_has_face_detection:
@@ -183,14 +207,18 @@ class MainWindow(QWidget):
         cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
         cascade = cv2.CascadeClassifier(str(cascade_path))
         img_copy = self.image.copy()
-        can1 = cv2.GaussianBlur(img_copy, self.kernel_size, self.uic.gaussian_param.value())
+        # can1 = cv2.GaussianBlur(img_copy, self.kernel_size, self.uic.gaussian_param.value())
+        # k_size = 3 + (self.uic.median_param.value()) * 2
+        # print("cc")
+        # can1 = cv2.medianBlur(self.image, k_size)
+        can1 = self.tmp.copy()
         gray = cv2.cvtColor(can1, cv2.COLOR_BGR2GRAY)
         scale = self.uic.scale_factor_param.value() / 100
         faces = cascade.detectMultiScale(gray, scaleFactor=scale, minNeighbors=5, minSize=(30, 30))
         for (x, y, w, h) in faces:
-            cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.rectangle(can1, (x, y), (x + w, y + h), (0, 255, 0), 2)
         if is_has_face_detection:
-            self.displayImage(img_copy, window=2)
+            self.displayImage(can1, window=2)
         else:
             self.displayImage(self.image, window=2)
 
@@ -200,25 +228,29 @@ class MainWindow(QWidget):
         global is_has_edge_detection
         global is_has_face_detection
         global is_has_face_recog
-        if is_has_edge_detection or is_has_filtering:
+        if is_has_edge_detection:
             return
         cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
         cascade = cv2.CascadeClassifier(str(cascade_path))
         img_copy = self.image.copy()
-        can1 = cv2.GaussianBlur(img_copy, self.kernel_size, self.uic.gaussian_param.value())
+        # can1 = cv2.GaussianBlur(img_copy, self.kernel_size, self.uic.gaussian_param.value())
+        # k_size = 3 + (self.uic.median_param.value()) * 2
+        # print("cc")
+        # can1 = cv2.medianBlur(img_copy, k_size)
+        can1 = self.tmp.copy()
         gray = cv2.cvtColor(can1, cv2.COLOR_BGR2GRAY)
         scale = self.uic.scale_factor_param.value() / 100
         faces = cascade.detectMultiScale(gray, scaleFactor=scale, minNeighbors=5, minSize=(30, 30))
         for (x, y, w, h) in faces:
-            cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.rectangle(can1, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         if is_has_face_recog:
-            image2 = self.image.copy()
-            temp = fr.detect_and_recog(image2, scale)
+            # image2 = self.image.copy()
+            temp = fr.detect_and_recog(can1, scale)
             self.displayImage(temp, window=2)
 
         elif is_has_face_detection:
-            self.displayImage(img_copy, window=2)
+            self.displayImage(can1, window=2)
 
     def face_recognition(self):
         global is_has_face_recog
@@ -226,7 +258,11 @@ class MainWindow(QWidget):
         image = self.image.copy()
 
         scale = self.uic.scale_factor_param.value() / 100
-        can1 = cv2.GaussianBlur(image, self.kernel_size, self.uic.gaussian_param.value())
+        # can1 = cv2.GaussianBlur(image, self.kernel_size, self.uic.gaussian_param.value())
+        # k_size = 3 + (self.uic.median_param.value()) * 2
+        # print("cc")
+        # can1 = cv2.medianBlur(image, k_size)
+        can1 = self.tmp.copy()
         temp = fr.detect_and_recog(can1, scale)
         if is_has_face_recog:
             self.displayImage(temp, window=2)
